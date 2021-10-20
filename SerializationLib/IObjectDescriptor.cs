@@ -8,6 +8,11 @@ namespace SerializationLib
 {
 	public interface IObjectDescriptor
 	{
+		int Ref
+		{
+			get;
+		}
+		
 		IEnumerable<IPropertyDescriptor> Properties
 		{
 			get;
@@ -15,5 +20,6 @@ namespace SerializationLib
 
 		void AddProperty(string Name, string Value);
 
+		IPropertyDescriptor GetProperty(string Name);
 	}
 }

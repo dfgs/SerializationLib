@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-namespace SerializationLib
+namespace SerializationLib.UnitTest.TestData
 {
-	public class PropertyDescriptor:IPropertyDescriptor
+	public class Personn
 	{
-		[XmlAttribute]
 		public string Name
 		{
 			get;
 			set;
 		}
-		[XmlAttribute]
-		public string Value
+		public byte Age
 		{
 			get;
 			set;
 		}
+		public string Job
+		{
+			get;
+			set;
+		}
+
+		public override int GetHashCode()
+		{
+			return Age;
+		}
+
 	}
 }
