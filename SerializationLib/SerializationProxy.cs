@@ -27,10 +27,22 @@ namespace SerializationLib
 			objects = new List<ObjectDescriptor>();
 		}
 
-		public void AddObject(object Object)
+		public IObjectDescriptor GetObject(int Ref)
+		{
+			return objects.FirstOrDefault(item => item.Ref == Ref);
+		}
+
+		private int GetRef(object Object)
+		{
+			return Object.GetHashCode();
+		}
+
+		public int AddObject(object Object)
 		{
 			ObjectDescriptor od;
 			System.Reflection.PropertyInfo[] pis;
+			int childRef;
+			object childObject;
 
 			if (Object == null) throw new ArgumentNullException(nameof(Object));
 
@@ -38,16 +50,33 @@ namespace SerializationLib
 			if (Object.GetType().IsValueType) throw new ArgumentException("Cannot add value type objects");
 
 			od = new ObjectDescriptor();
-			od.Ref = Object.GetHashCode();
+			od.Ref = GetRef(Object);
+			objects.Add(od);
 
-			pis= Object.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+			pis = Object.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 			foreach(System.Reflection.PropertyInfo pi in pis)
 			{
-				od.AddProperty(pi.Name, pi.GetValue(Object)?.ToString());
+				if ((pi.PropertyType.IsValueType) || (pi.PropertyType == typeof(string)))
+				{
+					od.AddProperty(pi.Name, pi.GetValue(Object)?.ToString());
+					continue;
+				}
+
+				childObject = pi.GetValue(Object);
+				if (childObject==null)
+				{
+					od.AddProperty(pi.Name, null);
+					continue;
+				}
+
+				childRef = GetRef(childObject);
+				if (GetObject(childRef) == null) AddObject(childObject);
+				od.AddProperty(pi.Name, childRef.ToString());
 			}
 
-			objects.Add(od);
+			return od.Ref;
 		}
+
 
 	}
 }

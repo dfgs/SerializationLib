@@ -52,6 +52,9 @@
     <Compile Include="SerializationProxyUnitTest.cs" />
     <Compile Include="ObjectDescriptorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\Job.cs" />
+    <Compile Include="TestData\PersonnSelfReferenced.cs" />
+    <Compile Include="TestData\PersonnEx.cs" />
     <Compile Include="TestData\Personn.cs" />
   </ItemGroup>
   <ItemGroup>

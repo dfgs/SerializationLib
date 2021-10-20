@@ -13,6 +13,8 @@ namespace SerializationLib
 			get;
 		}
 
-		void AddObject(object Object);
+		int AddObject(object Object);
+
+		IObjectDescriptor GetObject(int Ref);
 	}
 }
