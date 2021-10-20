@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace SerializationLib
 {
-    public class Class1
-    {
-    }
+	public class PropertyDescriptor:IPropertyDescriptor
+	{
+		public string Name
+		{
+			get;
+			set;
+		}
+		public string Value
+		{
+			get;
+			set;
+		}
+	}
 }
