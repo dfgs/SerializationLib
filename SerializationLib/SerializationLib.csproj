@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IItemDescriptor.cs" />
     <Compile Include="IPropertyDescriptor.cs" />
     <Compile Include="IObjectDescriptor.cs" />
     <Compile Include="ObjectDescriptor.cs" />
+    <Compile Include="ItemDescriptor.cs" />
     <Compile Include="SerializationProxy.cs" />
     <Compile Include="ISerializationProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

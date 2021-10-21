@@ -15,11 +15,24 @@ namespace SerializationLib
             get => properties;
         }
 
+        [XmlIgnore]
+        IEnumerable<IItemDescriptor> IObjectDescriptor.Items
+        {
+            get => items;
+        }
+
         private List<PropertyDescriptor> properties;
         public List<PropertyDescriptor> Properties
         {
             get => properties;
             set => properties = value;
+        }
+
+        private List<ItemDescriptor> items;
+        public List<ItemDescriptor> Items
+        {
+            get => items;
+            set => items = value;
         }
 
         [XmlAttribute]
@@ -32,6 +45,7 @@ namespace SerializationLib
         public ObjectDescriptor()
 		{
             properties = new List<PropertyDescriptor>();
+            items = new List<ItemDescriptor>();
 		}
 
         public void AddProperty(string Name, string Value)
@@ -51,7 +65,21 @@ namespace SerializationLib
 
             return properties.FirstOrDefault(item => item.Name == Name);
 		}
+        public void AddItem(string Value)
+        {
+            ItemDescriptor id;
 
+
+            id = new ItemDescriptor();
+            id.Value = Value;
+
+            items.Add(id);
+        }
+        public IItemDescriptor GetItem(int Index)
+        {
+            if ((Index < 0) || (Index >= items.Count)) return null;
+            return items[Index];
+        }
 
     }
 }

@@ -62,5 +62,39 @@ namespace SerializationLib.UnitTest
 			Assert.AreEqual("Value", pd.Value);
 		}
 
+
+		[TestMethod]
+		public void ShouldAddItem()
+		{
+			ObjectDescriptor od;
+
+			od = new ObjectDescriptor();
+			Assert.AreEqual(0, od.Items.Count());
+			od.AddItem("Value");
+			Assert.AreEqual(1, od.Items.Count());
+			Assert.AreEqual("Value", od.GetItem(0).Value);
+
+			od.AddItem( null);
+			Assert.AreEqual(2, od.Items.Count());
+			Assert.AreEqual(null, od.GetItem(1).Value);
+
+		}
+		[TestMethod]
+		public void ShouldGetItem()
+		{
+			ObjectDescriptor od;
+			
+
+			od = new ObjectDescriptor();
+			Assert.AreEqual(0, od.Items.Count());
+			od.AddItem("Value");
+			Assert.AreEqual(1, od.Items.Count());
+			Assert.AreEqual("Value", od.GetItem(0).Value);
+
+			Assert.IsNull(od.GetItem(-1));
+			Assert.IsNull(od.GetItem(1));
+
+		}
+
 	}
 }

@@ -56,6 +56,8 @@ namespace SerializationLib
 			pis = Object.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 			foreach(System.Reflection.PropertyInfo pi in pis)
 			{
+				if (pi.GetIndexParameters().Length > 0) continue; // skip indexers
+
 				if ((pi.PropertyType.IsValueType) || (pi.PropertyType == typeof(string)))
 				{
 					od.AddProperty(pi.Name, pi.GetValue(Object)?.ToString());
@@ -72,6 +74,29 @@ namespace SerializationLib
 				childRef = GetRef(childObject);
 				if (GetObject(childRef) == null) AddObject(childObject);
 				od.AddProperty(pi.Name, childRef.ToString());
+			}
+
+			if (Object is System.Collections.IEnumerable enumerable)
+			{
+				foreach(object item in enumerable)
+				{
+					if (item==null)
+					{
+						od.AddItem(null);
+						continue;
+					}
+
+					if ((item.GetType().IsValueType) || (item is string))
+					{
+						od.AddItem(item.ToString());
+						continue;
+					}
+
+					childRef = GetRef(item);
+					if (GetObject(childRef) == null) AddObject(item);
+					od.AddItem(childRef.ToString());
+
+				}
 			}
 
 			return od.Ref;

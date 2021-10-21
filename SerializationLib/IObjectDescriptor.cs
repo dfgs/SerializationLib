@@ -18,8 +18,17 @@ namespace SerializationLib
 			get;
 		}
 
+		IEnumerable<IItemDescriptor> Items
+		{
+			get;
+		}
+
 		void AddProperty(string Name, string Value);
 
 		IPropertyDescriptor GetProperty(string Name);
+
+		void AddItem(string Value);
+		IItemDescriptor GetItem(int Index);
+
 	}
 }

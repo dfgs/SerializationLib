@@ -207,5 +207,112 @@ namespace SerializationLib.UnitTest
 
 		}
 
+
+		[TestMethod]
+		public void ShouldAddListOfValueTypeObject()
+		{
+			NumberList data;
+			SerializationProxy proxy;
+			IItemDescriptor itd;
+			int id;
+
+			data = new NumberList();
+			data.Add(1);
+			data.Add(2);
+			data.Add(3);
+
+			proxy = new SerializationProxy();
+			Assert.AreEqual(0, proxy.Objects.Count());
+			id = proxy.AddObject(data);
+			Assert.AreEqual(40, id);
+			Assert.AreEqual(1, proxy.Objects.Count());
+			Assert.AreEqual(40, proxy.Objects.ElementAt(0).Ref);
+			Assert.AreEqual(3, proxy.Objects.ElementAt(0).Items.Count());
+
+			itd = proxy.Objects.ElementAt(0).GetItem(0);
+			Assert.AreEqual("1", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(1);
+			Assert.AreEqual("2", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(2);
+			Assert.AreEqual("3", itd.Value);
+		}
+		[TestMethod]
+		public void ShouldAddArrayOfValueTypeObject()
+		{
+			int[] data;
+			SerializationProxy proxy;
+			IItemDescriptor itd;
+			int id;
+
+			data = new int[3] {1,2,3 };
+
+			proxy = new SerializationProxy();
+			Assert.AreEqual(0, proxy.Objects.Count());
+			id = proxy.AddObject(data);
+			Assert.AreEqual(1, proxy.Objects.Count());
+			Assert.AreEqual(3, proxy.Objects.ElementAt(0).Items.Count());
+
+			itd = proxy.Objects.ElementAt(0).GetItem(0);
+			Assert.AreEqual("1", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(1);
+			Assert.AreEqual("2", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(2);
+			Assert.AreEqual("3", itd.Value);
+		}
+		[TestMethod]
+		public void ShouldAddListOfRefObject()
+		{
+			JobList data;
+			SerializationProxy proxy;
+			IItemDescriptor itd;
+			int id;
+
+			data = new JobList();
+			data.Add(new Job() { Ref = 1, Name = "Job1" });
+			data.Add(new Job() { Ref = 2, Name = "Job2" });
+			data.Add(new Job() { Ref = 3, Name = "Job3" });
+
+			proxy = new SerializationProxy();
+			Assert.AreEqual(0, proxy.Objects.Count());
+			id = proxy.AddObject(data);
+			Assert.AreEqual(40, id);
+			Assert.AreEqual(4, proxy.Objects.Count());
+			Assert.AreEqual(40, proxy.Objects.ElementAt(0).Ref);
+			Assert.AreEqual(3, proxy.Objects.ElementAt(0).Items.Count());
+
+			itd = proxy.Objects.ElementAt(0).GetItem(0);
+			Assert.AreEqual("1", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(1);
+			Assert.AreEqual("2", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(2);
+			Assert.AreEqual("3", itd.Value);
+		}
+		[TestMethod]
+		public void ShouldAddArrayOfRefObject()
+		{
+			Job[] data;
+			SerializationProxy proxy;
+			IItemDescriptor itd;
+			int id;
+
+			data = new Job[3] {
+				new Job() { Ref = 1, Name = "Job1" },
+				new Job() { Ref = 2, Name = "Job2" },
+				new Job() { Ref = 3, Name = "Job3" }
+			};
+
+			proxy = new SerializationProxy();
+			Assert.AreEqual(0, proxy.Objects.Count());
+			id = proxy.AddObject(data);
+			Assert.AreEqual(4, proxy.Objects.Count());
+			Assert.AreEqual(3, proxy.Objects.ElementAt(0).Items.Count());
+
+			itd = proxy.Objects.ElementAt(0).GetItem(0);
+			Assert.AreEqual("1", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(1);
+			Assert.AreEqual("2", itd.Value);
+			itd = proxy.Objects.ElementAt(0).GetItem(2);
+			Assert.AreEqual("3", itd.Value);
+		}
 	}
 }
